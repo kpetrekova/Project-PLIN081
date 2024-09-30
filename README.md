@@ -5,13 +5,13 @@ This is a repository for a school project focused on machine learning. It's a wo
 
 
 ## Members of team
-Eliška Kopecká, UČO 568055
+Eliška Kopecká, UČO 568055, [github profil](github.com/elakop)
 
-Karolína Krejčiříková, UČO 517401
+Karolína Krejčiříková, UČO 517401, [github profil](github.com/Kajakr)
 
 Katarína Petreková, UČO 527165, [github profil](github.com/kpetrekova)
 
-Daniel Šurda, UČO 482451
+Daniel Šurda, UČO 482451, [github profil](github.com/DanielSurda)
 
 
 
