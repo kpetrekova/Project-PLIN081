@@ -1,20 +1,9 @@
-"""tohle jenom zmeni dokument "the complete works...." na UTF-8 formát a uloží zpátky"""
-# Read the UTF-8 with BOM file and write it as normal UTF-8
-input_file_path = 'data\The Complete Works of William Shakespeare.txt'
-output_file_path = 'Shakespear_utf8.txt'
-def convert_to_UTF8 (input_file_path,output_file_path):
-    with open(input_file_path, 'r', encoding='utf-8-sig') as infile:
-        content = infile.read()  # Read the file, automatically strips BOM
+"""change documents to UTF-8"""
 
-    with open(output_file_path, 'w', encoding='utf-8') as outfile:
-        outfile.write(content)  # Write it as normal UTF-8
 
-    print(f"Converted '{input_file_path}' to '{output_file_path}' without BOM.")
-  
-    convert_to_UTF8 (input_file_path,output_file_path)
-####
 """tohle má ostatní texty uložit do UTF-8 formátu
 Taky by to mělo vymazat všechno, kromě textu knihy ze zdrojů gutenberg"""
+"""CHANGE documents to UTF-8 and save as a new files and convert to one dictionary"""
 import os
 import glob
 
@@ -33,17 +22,13 @@ def read_text_files_from_subfolders(main_folder_path):
     
     return file_contents
 
-
-
 main_folder_path = 'data'
 file_contents = read_text_files_from_subfolders(main_folder_path)
 
 
 file_contents = {}
 for file_name, content in file_contents.items():
-        # Vytvořte cestu k souboru (přidáváme .txt jako příponu)
         file_path = os.path.join('UTF-8data', f'{file_name}.txt')
-        # Uložení obsahu do souboru
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
 for i, file in enumerate(os.listdir('UTF-8data')):
@@ -53,9 +38,9 @@ for i, file in enumerate(os.listdir('UTF-8data')):
             file_contents[f'file_{i+1}'] = f.read()
     
             
-    
-import re
 
+import re
+"""function remove everuthinng before and after pattern from Guthenberge source. Only a text of book should stay"""
 #pattern 1 delete ewerything before the "start of the project" and second one delete everything after the end of the book
 def delete_guthenberg_info (contentdict):
 
@@ -67,14 +52,9 @@ def delete_guthenberg_info (contentdict):
         if isinstance(file_content, bytes):
             file_content = file_content.decode('utf-8')  # Decode bytes to string
 
-        # Remove everything before the START pattern
         modified_text = re.sub(f'^.*?{start_pattern}', '', file_content, flags=re.DOTALL)
-
-        # Remove everything after the END pattern
         modified_text = re.sub(f'{end_pattern}.*$', '', modified_text, flags=re.DOTALL)
 
-        #modified_text = modified_text.replace(todelete_pattern, "")
-        
         contentdict[file_name] = modified_text
         
     return contentdict
@@ -83,9 +63,10 @@ def delete_guthenberg_info (contentdict):
   
 file_contents_noguthenberg = delete_guthenberg_info(file_contents)
 #print(file_contents_noguthenberg)
+
+
+"""save as file"""
 #pro kontrolu stahuji soubory do jednoho souboru, od ktereho si slibuji, ze uvidim jestli jsem odstranila to co jsem chtela
-
-
 """#Combine the contents into a single string with a separator
 combined_content = "\n\n---\n\n".join(file_contents.values())
 # Save the combined content to a single .txt file
@@ -106,28 +87,13 @@ with open(output_file_path, 'w', encoding='utf-8') as f:
 
 print(f"Combined content with filename separators has been written to {output_file_path}")   
     
-    
-    
-"""
-
-print(f"Combined content saved to {'cleaning'}")
 
 
-####### copyright deleting
-tohle necham az z toho fakt udelam jeden soubor, ted se jeste podivat, jestli neni neco, co je potreba vzit po jednom"""
-
-
-####
-
-
-
-#now I can do something
+"open folder"
 with open('combined_texts2.txt', 'r', encoding='utf-8') as f:
     # Read the entire file
     content = f.read()
 
-
-import re
 
 def remove_paragraph_starting_with(text, start_sentence):
     # Create a regular expression pattern to match the start sentence and everything until the next paragraph
@@ -138,8 +104,7 @@ def remove_paragraph_starting_with(text, start_sentence):
     
     return cleaned_text
 
-
-
+"""removiing paragraph with specific pattern"""
 # Remove article starting with the specific sentence
 start_sentence = "Copyright pages exist to tell you"
 content = remove_paragraph_starting_with(content, start_sentence)
@@ -199,33 +164,29 @@ output_file_path = 'combinedtexts2_handclean_removedfootnotes'
 with open(output_file_path, 'w', encoding='utf-8') as f:
     f.write(cleaned_content)
 
-    
+ 
     
     
 import re
 
-with open('Shakespear_utf8.txt', 'r', encoding='utf-8') as f:
-    # Read the entire file
-    content = f.read()
+"""tohle jenom zmeni dokument "the complete works...." na UTF-8 formát a uloží zpátky"""
 
-def delete_gutenberg_info_from_shakespeare(content):
-    # Define the start and end patterns
-    start_pattern = r'\*\*\* START OF (THE|THIS) PROJECT GUTENBERG EBOOK.*?\*\*\*'
-    end_pattern = r'\*\*\* END OF (THE|THIS) PROJECT GUTENBERG EBOOK.*?\*\*\*'
-   
-    # Remove everything before the START pattern
-    modified_text = re.sub(start_pattern, '', content, flags=re.DOTALL)
-    
-    # Remove everything after the END pattern
-    modified_text = re.sub(end_pattern + r'.*$', '', modified_text, flags=re.DOTALL)
-    
-    return modified_text
+#ShakespeR
+# Read the UTF-8 with BOM file and write it as normal UTF-8
+input_file_path = 'data\The Complete Works of William Shakespeare.txt'
+output_file_path = 'Shakespear_utf8.txt'
+def convert_to_UTF8 (input_file_path,output_file_path):
+    with open(input_file_path, 'r', encoding='utf-8-sig') as infile:
+        content = infile.read()  # Read the file, automatically strips BOM
 
-# Call the function to clean the Gutenberg information
-Shakespeare_utf8_without_G = delete_gutenberg_info_from_shakespeare(content)
-#print(Shakespeare_utf8_without_G)
+    with open(output_file_path, 'w', encoding='utf-8') as outfile:
+        outfile.write(content)  # Write it as normal UTF-8
 
-
+    print(f"Converted '{input_file_path}' to '{output_file_path}' without BOM.")
+  
+    convert_to_UTF8 (input_file_path,output_file_path)
+####
+"""function in progress"""
 def remove_string(text, pattern):
     
     # Replace all matched paragraphs with an empty string
@@ -236,16 +197,3 @@ roman_numeral_pattern = r'\b[MDCLXVI]+\b'    # Roman numerals
 arabic_numeral_pattern = r'\b\d+\b'          # Arabic numerals
 name_character_pattern = r'\b[A-Z]{1,}\b'  # Names that start with an uppercase letter and are followed by lowercase letters (fix typo in variable name)
 square_bracket_pattern = r'\[.*?\]'         # Text inside square brackets
-
-# Store the patterns in a list
-
-Shakespeare_utf8_without_G_Regpatterns = remove_string (Shakespeare_utf8_without_G,roman_numeral_pattern)
-Shakespeare_utf8_without_G_Regpatterns = remove_string (Shakespeare_utf8_without_G_Regpatterns,arabic_numeral_pattern)
-
-Shakespeare_utf8_without_G_Regpatterns = remove_string (Shakespeare_utf8_without_G_Regpatterns, name_character_pattern)
-print(Shakespeare_utf8_without_G_Regpatterns)
-Shakespeare_utf8_without_G_Regpatterns = remove_string (Shakespeare_utf8_without_G_Regpatterns, square_bracket_pattern)
-
-output_file_path = 'Shakespear_without_regexpatterns'
-with open(output_file_path, 'w', encoding='utf-8') as f:
-    f.write(Shakespeare_utf8_without_G_Regpatterns)
