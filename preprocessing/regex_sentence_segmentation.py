@@ -1,32 +1,31 @@
 import re
 
+RE_SPACES = re.compile("[ \n]{1,}")
 
-def sent_segmentation(text):
+def sentence_segmentation(text):
     """Return a list of sentences from the text."""
     
-    text = text.replace("\n", " ")
-    while "  " in text:
-        text = text.replace("  ", " ")
+    text = RE_SPACES.sub(" ", text)
 
     sentences = []
     sent = ""
 
-    for i in range(len(text)-2):
+    for i in range(len(text) - 2):
 
         # sentence can't start with end quotations marks
-        if len(sent) == 0 and text[i] == "\"“":
-            break
+        if len(sent) == 0 and (text[i] == "\"" or text[i] == "“"):
+            continue
 
-        # check if not end of text
-        # check if char is interpunction
-        # check if previous char is not capital (no segmentation on abreviations)
-        # check if char after space is capital
-        # check beginning of next sentence
-        elif (i == len(text)-1 or i != len(text)-3 or i != len(text)-2 or i != 0) \
-            and (re.search(r"[.!?;:]", text[i]) \
-            and re.search(r"[^A-Z]", text[i-1]) \
-            and (re.search(r"[A-Z'“\"]", text[i+2])) \
-            or (re.search(r"[\"”]", text[i+1]) and re.search(r"[A-Z'“\"]", text[i+3]))):
+            # check if not end of text
+        elif ((i != len(text)-3 or i != 0) 
+            # check if char is interpunction
+            and (re.search(r"[.!?;:]", text[i]) 
+            # check if previous char is not capital (no segmentation on abreviations)
+            and re.search(r"[^A-Z]", text[i-1]) 
+            # check if char after space is capital
+            and (re.search(r"[A-Z'“\"]", text[i+2])) 
+            # check beginning of next sentence
+            or (re.search(r"[\"”]", text[i+1]) and re.search(r"[A-Z'“\"]", text[i+3])))):
 
             # if next char end of quotation, append both
             if re.search(r"[\"”]", text[i+1]):
@@ -35,11 +34,12 @@ def sent_segmentation(text):
             else:
                 sentences.append(sent + text[i])
                 sent = ""
+
         else:
             sent += text[i]
 
     # append last sentence of the text + its interpunction
-    sentences.append(sent + text[len(text)-2:])
+    sentences.append(sent + text[len(text)-1:])
 
     clean_sentences = []
 
@@ -47,13 +47,13 @@ def sent_segmentation(text):
 
         if sent[0] == " " or sent[0] == "\n":
             sent = sent[1:]
-            clean_sentences.append(sent + "\n")
+            clean_sentences.append(sent)
 
         elif (sent[0] == "”" or sent[0] == "\"") and sent[1] == " ":
             sent = sent[2:]
-            clean_sentences.append(sent + "\n")
+            clean_sentences.append(sent)
         else:
-            clean_sentences.append(sent + "\n")
+            clean_sentences.append(sent)
 
     return clean_sentences
 
@@ -64,12 +64,10 @@ def preprocess_from_file(filename):
     with open(filename, "r", encoding="utf-8") as f:
         text = f.read()
 
-    segmented_text = sent_segmentation(text)
+    segmented_text = sentence_segmentation(text)
 
     new_file_name = filename[:len(filename)-4] + "_sentences.txt"
 
     with open(new_file_name, "w", encoding="utf-8") as f:
-        for sent in segmented_text:
-            f.write(sent)
-
-    print("done")
+        f.write("\n".join(segmented_text))
+        f.write("\n")
