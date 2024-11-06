@@ -1,11 +1,10 @@
 import re
 
-RE_SPACES = re.compile("[ \n]{1,}")
 
 def sentence_segmentation(text):
     """Return a list of sentences from the text."""
     
-    text = RE_SPACES.sub(" ", text)
+    text = re.sub("[ \n]+"," ", text)
 
     sentences = []
     sent = ""
@@ -13,19 +12,15 @@ def sentence_segmentation(text):
     for i in range(len(text) - 2):
 
         # sentence can't start with end quotations marks
-        if len(sent) == 0 and (text[i] == "\"" or text[i] == "“"):
+        if len(sent) == 0 and text[i] in "“\"":
             continue
 
-            # check if not end of text
-        elif ((i != len(text)-3 or i != 0) 
-            # check if char is interpunction
-            and (re.search(r"[.!?;:]", text[i]) 
-            # check if previous char is not capital (no segmentation on abreviations)
-            and re.search(r"[^A-Z]", text[i-1]) 
-            # check if char after space is capital
-            and (re.search(r"[A-Z'“\"]", text[i+2])) 
-            # check beginning of next sentence
-            or (re.search(r"[\"”]", text[i+1]) and re.search(r"[A-Z'“\"]", text[i+3])))):
+        elif (
+            (i != len(text)-3 or i != 0)   # check if not end of text
+            and (re.search(r"[.!?;:]", text[i])  # check if char is interpunction
+            and re.search(r"[^A-Z]", text[i-1])  # check if previous char is not capital (no segmentation on abreviations)
+            and (re.search(r"[A-Z'“\"]", text[i+2]))  # check if char after space is capital
+            or (re.search(r"[\"”]", text[i+1]) and re.search(r"[A-Z'“\"]", text[i+3])))):  # check beginning of next sentence
 
             # if next char end of quotation, append both
             if re.search(r"[\"”]", text[i+1]):
