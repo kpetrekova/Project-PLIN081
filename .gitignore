@@ -85,3 +85,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# ludwig
+results/
+*.hdf5
+*.meta.json
