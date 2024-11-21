@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 
-from regex_sentence_segmentation import sentence_segmentation
+from shakespeare.preprocessing.regex_sentence_segmentation import sentence_segmentation
 from prediction import predict_if_shakespeare
 
 
