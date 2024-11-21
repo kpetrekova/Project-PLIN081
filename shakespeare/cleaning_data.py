@@ -6,6 +6,7 @@ Taky by to mělo vymazat všechno, kromě textu knihy ze zdrojů gutenberg"""
 """CHANGE documents to UTF-8 and save as a new files and convert to one dictionary"""
 import os
 import glob
+import re
 
 def read_text_files_from_subfolders(main_folder_path):
 # Find all .txt files in the specified main folder and its subfolders
@@ -37,9 +38,8 @@ for i, file in enumerate(os.listdir('UTF-8data')):
         with open(file_path, 'r', encoding='utf-8') as f:
             file_contents[f'file_{i+1}'] = f.read()
     
-            
 
-import re
+
 """function remove everuthinng before and after pattern from Guthenberge source. Only a text of book should stay"""
 #pattern 1 delete ewerything before the "start of the project" and second one delete everything after the end of the book
 def delete_guthenberg_info (contentdict):
