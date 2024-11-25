@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
 
-from regex_sentence_segmentation import sentence_segmentation
-from prediction import predict_if_shakespeare
+from preprocess.regex_sentence_segmentation import sentence_segmentation
+from model.prediction import predict_if_shakespeare
 
 
 app = FastAPI()
@@ -18,7 +18,7 @@ class TextInput(BaseModel):
 async def index():
     """Show frontend."""
 
-    with open("index.html") as f:
+    with open("web/index.html") as f:
         return f.read()
     
 
