@@ -3,18 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Input with AJAX</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+    
+    <title>The Bard Test</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link href="../web/style.css" rel="stylesheet">
+    <link href="../web/inkwell.png" rel="icon">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
+<body class="container">
 
-    <p>Test whether your text would be attributed to Shakespeare</p>
+    <h4 class="center-align">The Bard Test</h4>
+    <p class="center-align">Check whether your text would be attributed to Shakespeare</p>
+    
+    <br><br><br>
+    
+    <div class="card-panel">
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="userInput" class="materialize-textarea" placeholder="Type here..."></textarea>
+            </div>
+        </div>
 
-    <!-- Input field and button -->
-    <input type="text" id="userInput" placeholder="Enter text here">
-    <button id="sendButton">Send Text</button>
+        <div class="row center-align">
+            <button id="sendButton" class="btn waves-effect waves-light" type="button">
+                Check
+            </button>
+        </div>
 
-    <p id="response"></p> <!-- To display response -->
+        <div class="row">
+            <div id="response" class="col s12 card-panel teal lighten-4 center-align">
+                <em>Your result will appear here...</em>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Event listener for button click

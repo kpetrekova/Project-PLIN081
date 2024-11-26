@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from preprocess.regex_sentence_segmentation import sentence_segmentation
 from model.prediction import predict_if_shakespeare
@@ -9,6 +10,7 @@ from model.prediction import predict_if_shakespeare
 
 app = FastAPI()
 
+app.mount("/web", StaticFiles(directory="web"), name="web")
 
 class TextInput(BaseModel):
     text: str
@@ -20,7 +22,7 @@ async def index():
 
     with open("web/index.html") as f:
         return f.read()
-    
+
 
 @app.post("/process/")
 async def process_text(input_data: TextInput):
